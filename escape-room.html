@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Escape Room Digital</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    /* Seu CSS estilizado azul/roxo já enviado */
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1e1e2f, #4b2c74);
+      color: #f0f0f0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .slide {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      padding: 30px;
+      max-width: 700px;
+      width: 90%;
+      background: linear-gradient(145deg, #2f2f57, #6a4cb5);
+      border-radius: 15px;
+      box-shadow: 0 0 25px rgba(0,0,0,0.4);
+    }
+    .slide.active {
+      display: flex;
+    }
+    input, textarea {
+      margin: 10px 0;
+      padding: 12px;
+      width: 100%;
+      border-radius: 8px;
+      border: none;
+      font-size: 16px;
+      background-color: #f9f9f9;
+      color: #333;
+    }
+    button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      border: none;
+      background-color: #6f42c1;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #8e5be3;
+    }
+    .seta {
+      font-size: 28px;
+      margin-top: 20px;
+      cursor: pointer;
+      color: #9bd1ff;
+    }
+    .hide {
+      display: none;
+    }
+    .imagem-preview {
+      max-width: 200px;
+      margin-top: 10px;
+      border-radius: 10px;
+    }
+    .certificado {
+      background: #ffffff;
+      color: #333;
+      padding: 40px;
+      border: 10px double #6f42c1;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 0 20px #00000055;
+      width: 100%;
+      max-width: 600px;
+    }
+    .certificado h1 {
+      font-size: 32px;
+      color: #2c2c45;
+      margin: 20px 0;
+    }
+    .certificado h2 {
+      font-size: 26px;
+      color: #1e1e2f;
+    }
+    .certificado h3 {
+      font-size: 20px;
+      margin: 10px 0;
+    }
+    .dataCertificado {
+      margin-top: 20px;
+    }
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+      #certificadoArea, #certificadoArea * {
+        visibility: visible;
+      }
+      #certificadoArea {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        background: white;
+        padding: 50px;
+        box-shadow: none;
+        border: none;
+      }
+      button {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Slide 1 -->
+  <div class="slide active" id="slide1">
+    <h2>Escape Room Digital: A Sala da Informática</h2>
+    <p>Missão: Conectar e Escapar!</p>
+    <p>Seja rápido, inteligente e seguro!</p>
+    <p>Resolva os desafios e libere a saída!</p>
+    <input type="text" id="nomeAluno" placeholder="Digite seu nome" />
+    <div class="seta" onclick="proximoSlide()">➡️</div>
+  </div>
+
+  <!-- Slide 2 -->
+  <div class="slide" id="slide2">
+    <h2>Instruções</h2>
+    <p>Você vai passar por 5 fases com perguntas e tarefas.</p>
+    <p>Em cada fase, responda as perguntas e realize as tarefas práticas.</p>
+    <p>Peça ajuda ao professor se necessário.</p>
+    <p>Boa sorte!</p>
+    <div class="seta" onclick="proximoSlide()">➡️</div>
+  </div>
+
+  <!-- Slide 3 -->
+  <div class="slide" id="slide3">
+    <h2>Fase 1: O Código do Sistema</h2>
+    <p>O que é a CPU?</p>
+    <input type="text" />
+    <p>O que armazena arquivos permanentemente?</p>
+    <input type="text" />
+    <p>Qual parte mostra as imagens do computador?</p>
+    <input type="text" />
+    <div class="seta" onclick="proximoSlide()">➡️</div>
+  </div>
+
+  <!-- Slide 4 -->
+  <div class="slide" id="slide4">
+    <h2>Fase 2: O Teclado Mágico</h2>
+    <p>Qual atalho salva arquivos?</p>
+    <input type="text" />
+    <p>Qual tecla apaga da direita para a esquerda?</p>
+    <input type="text" />
+    <p>O que acontece se usar Ctrl + P?</p>
+    <input type="text" />
+    <p><strong>Prática:</strong> Escreva seu nome no Bloco de Notas e salve com o atalho. Mostre para a professora.</p>
+    <div class="seta" onclick="proximoSlide()">➡️</div>
+  </div>
+
+  <!-- Slide 5 -->
+  <div class="slide" id="slide5">
+    <h2>Fase 3: Navegação Segura</h2>
+    <p>O que é um navegador?</p>
+    <input type="text" />
+    <p>É seguro clicar em qualquer link da internet? Por quê?</p>
+    <input type="text" />
+    <p>Como identificar um site seguro?</p>
+    <input type="text" />
+    <div class="seta" onclick="proximoSlide()">➡️</div>
+  </div>
+
+  <!-- Slide 6 -->
+  <div class="slide" id="slide6">
+    <h2>Fase 4: Armadilha Digital</h2>
+    <p>O que é phishing?</p>
+    <input type="text" />
+    <p>Para que serve um antivírus?</p>
+    <input type="text" />
+    <p>Podemos compartilhar nossas senhas? Por quê?</p>
+    <input type="text" />
+    <p><strong>Tarefa:</strong> Crie uma senha segura (com letra maiúscula, número e símbolo)</p>
+    <input type="text" />
+    <div class="seta" onclick="proximoSlide()">➡️</div>
+  </div>
+
+  <!-- Slide 7 -->
+  <div class="slide" id="slide7">
+    <h2>Fase 5: O Painel Perdido</h2>
+    <p>Como criar uma nova pasta?</p>
+    <input type="text" />
+    <p>Onde fica o botão para desligar o computador?</p>
+    <input type="text" />
+    <p>O que é a Área de Trabalho?</p>
+    <input type="text" />
+    <p><strong>Tarefa:</strong> Crie uma pasta chamada “ESCAPE CONCLUÍDO”. Mostre para a professora.</p>
+    <div class="seta" onclick="proximoSlide()">➡️</div>
+  </div>
+
+  <!-- Slide 8 -->
+  <div class="slide" id="slide8">
+    <h2>Fase Extra: Sala Misteriosa</h2>
+    <p>O que você aprendeu de mais importante sobre segurança digital?</p>
+    <textarea></textarea>
+    <div class="seta" onclick="proximoSlide()">➡️</div>
+  </div>
+
+  <!-- Slide 9 -->
+  <div class="slide" id="slide9">
+    <div class="certificado" id="certificadoArea">
+      <h2>🎓 Certificado de Conclusão</h2>
+      <p>Este certificado é concedido a</p>
+      <h1 id="nomeCertificadoEstilizado">[Nome do Aluno]</h1>
+      <p>Por ter completado com sucesso o</p>
+      <h3>Escape Room Digital: A Sala da Informática</h3>
+      <p class="dataCertificado">Emitido em: <span id="dataHoje"></span></p>
+    </div>
+    <button onclick="salvarRespostas()">💾 Enviar Respostas</button>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyBXYiLF4GchxtndJSXAtnIet4hRNdzsEs8",
+      authDomain: "escaperoom-25624.firebaseapp.com",
+      projectId: "escaperoom-25624",
+      storageBucket: "escaperoom-25624.firebasestorage.app",
+      messagingSenderId: "280070550636",
+      appId: "1:280070550636:web:29b19f6397489c258d1449"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    let slideAtual = 1;
+
+    window.proximoSlide = function() {
+  const slides = document.querySelectorAll('.slide');
+  if (slideAtual < slides.length) {
+    slides[slideAtual - 1].classList.remove('active');
+    slides[slideAtual].classList.add('active');
+
+    if (slideAtual === 8) {
+      const nome = document.getElementById('nomeAluno').value.trim();
+      document.getElementById('nomeCertificadoEstilizado').textContent =
+        nome !== '' ? nome : 'Explorador Digital';
+
+      const hoje = new Date();
+      document.getElementById('dataHoje').textContent = hoje.toLocaleDateString('pt-BR');
+    }
+
+    slideAtual++;
+  }
+}
+
+
+    window.salvarRespostas = async () => {
+      const nome = document.getElementById('nomeAluno').value.trim();
+      if (!nome) {
+        alert('Por favor, digite seu nome no início!');
+        slideAtual = 1;
+        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+        document.getElementById('slide1').classList.add('active');
+        return;
+      }
+
+      const respostas = document.querySelectorAll('input[type="text"], textarea');
+      const dados = { nome, data: new Date().toISOString() };
+
+      respostas.forEach((input, i) => {
+        dados[`resposta${i + 1}`] = input.value.trim();
+      });
+
+      try {
+        await addDoc(collection(db, "respostasEscapeRoom"), dados);
+        alert("✅ Respostas salvas com sucesso no Firebase!");
+      } catch (e) {
+        alert("❌ Erro ao salvar: " + e.message);
+      }
+    };
+
+    function mostrarImagem(input, previewNum) {
+      const preview = document.getElementById(`preview${previewNum}`);
+      const file = input.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          preview.src = e.target.result;
+          preview.classList.remove('hide');
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+  </script>
+
+</body>
+</html>
