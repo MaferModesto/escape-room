@@ -6,7 +6,6 @@
   <title>Escape Room Digital</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
-    /* Seu CSS estilizado azul/roxo já enviado */
     * {
       box-sizing: border-box;
     }
@@ -98,6 +97,18 @@
     }
     .dataCertificado {
       margin-top: 20px;
+    }
+    .respostas-final {
+      background: #f9f9f9;
+      color: #333;
+      border-radius: 12px;
+      padding: 15px;
+      margin-top: 20px;
+      max-height: 300px;
+      overflow-y: auto;
+      text-align: left;
+      width: 100%;
+      max-width: 600px;
     }
     @media print {
       body * {
@@ -226,82 +237,77 @@
       <h3>Escape Room Digital: A Sala da Informática</h3>
       <p class="dataCertificado">Emitido em: <span id="dataHoje"></span></p>
     </div>
-    <button onclick="salvarRespostas()">💾 Enviar Respostas</button>
+    <div class="respostas-final" id="resumoRespostas"></div>
+    <button onclick="reiniciar()">🔄 Reiniciar</button>
   </div>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyBXYiLF4GchxtndJSXAtnIet4hRNdzsEs8",
-      authDomain: "escaperoom-25624.firebaseapp.com",
-      projectId: "escaperoom-25624",
-      messagingSenderId: "280070550636",
-      appId: "1:280070550636:web:29b19f6397489c258d1449"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+  <script>
+    const perguntas = [
+      "Digite seu nome",
+      "O que é a CPU?",
+      "O que armazena arquivos permanentemente?",
+      "Qual parte mostra as imagens do computador?",
+      "Qual atalho salva arquivos?",
+      "Qual tecla apaga da direita para a esquerda?",
+      "O que acontece se usar Ctrl + P?",
+      "O que é um navegador?",
+      "É seguro clicar em qualquer link da internet? Por quê?",
+      "Como identificar um site seguro?",
+      "O que é phishing?",
+      "Para que serve um antivírus?",
+      "Podemos compartilhar nossas senhas? Por quê?",
+      "Crie uma senha segura (com letra maiúscula, número e símbolo)",
+      "Como criar uma nova pasta?",
+      "Onde fica o botão para desligar o computador?",
+      "O que é a Área de Trabalho?",
+      "O que você aprendeu de mais importante sobre segurança digital?"
+    ];
 
     let slideAtual = 1;
 
-    window.proximoSlide = function() {
-  const slides = document.querySelectorAll('.slide');
-  if (slideAtual < slides.length) {
-    slides[slideAtual - 1].classList.remove('active');
-    slides[slideAtual].classList.add('active');
+    function proximoSlide() {
+      const slides = document.querySelectorAll('.slide');
+      if (slideAtual < slides.length) {
+        slides[slideAtual - 1].classList.remove('active');
 
-    if (slideAtual === 8) {
-      const nome = document.getElementById('nomeAluno').value.trim();
-      document.getElementById('nomeCertificadoEstilizado').textContent =
-        nome !== '' ? nome : 'Explorador Digital';
+        // Quando chegar no slide 9 (índice 8)
+        if (slideAtual === 8) {
+          const nome = document.getElementById('nomeAluno').value.trim();
+          document.getElementById('nomeCertificadoEstilizado').textContent =
+            nome !== '' ? nome : 'Explorador Digital';
 
-      const hoje = new Date();
-      document.getElementById('dataHoje').textContent = hoje.toLocaleDateString('pt-BR');
+          const hoje = new Date();
+          document.getElementById('dataHoje').textContent = hoje.toLocaleDateString('pt-BR');
+
+          mostrarResumo();
+        }
+
+        slides[slideAtual].classList.add('active');
+        slideAtual++;
+      }
     }
 
-    slideAtual++;
-  }
-}
+    function mostrarResumo() {
+      const respostasInputs = document.querySelectorAll('input[type="text"], textarea');
+      const divResumo = document.getElementById('resumoRespostas');
+      divResumo.innerHTML = "<h3>Suas respostas:</h3>";
 
-
-    window.salvarRespostas = async () => {
-      const nome = document.getElementById('nomeAluno').value.trim();
-      if (!nome) {
-        alert('Por favor, digite seu nome no início!');
-        slideAtual = 1;
-        document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
-        document.getElementById('slide1').classList.add('active');
-        return;
-      }
-
-      const respostas = document.querySelectorAll('input[type="text"], textarea');
-      const dados = { nome, data: new Date().toISOString() };
-
-      respostas.forEach((input, i) => {
-        dados[`resposta${i + 1}`] = input.value.trim();
+      respostasInputs.forEach((input, i) => {
+        const resposta = input.value.trim() || "<i>Sem resposta</i>";
+        divResumo.innerHTML += `<p><strong>${perguntas[i + 1]}:</strong> ${resposta}</p>`;
       });
+    }
 
-      try {
-        await addDoc(collection(db, "respostasEscapeRoom"), dados);
-        alert("✅ Respostas salvas com sucesso no Firebase!");
-      } catch (e) {
-        alert("❌ Erro ao salvar: " + e.message);
-      }
-    };
+    function reiniciar() {
+      slideAtual = 1;
+      const slides = document.querySelectorAll('.slide');
+      slides.forEach(s => s.classList.remove('active'));
+      document.getElementById('slide1').classList.add('active');
 
-    function mostrarImagem(input, previewNum) {
-      const preview = document.getElementById(`preview${previewNum}`);
-      const file = input.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          preview.src = e.target.result;
-          preview.classList.remove('hide');
-        };
-        reader.readAsDataURL(file);
-      }
+      // Limpar inputs e textarea
+      document.getElementById('nomeAluno').value = '';
+      const respostasInputs = document.querySelectorAll('input[type="text"], textarea');
+      respostasInputs.forEach(input => input.value = '');
     }
   </script>
 
